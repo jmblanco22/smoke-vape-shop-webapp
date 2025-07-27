@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/smoke-vape-shop-webapp/static/css/main.e6c13ad2.css",
+    "main.js": "/smoke-vape-shop-webapp/static/js/main.b1a093f5.js",
+    "static/js/453.cf2d30b7.chunk.js": "/smoke-vape-shop-webapp/static/js/453.cf2d30b7.chunk.js",
+    "static/media/vape-pen.jpg": "/smoke-vape-shop-webapp/static/media/vape-pen.a6d56d301f13702af368.jpg",
+    "static/media/e-liquid.jpg": "/smoke-vape-shop-webapp/static/media/e-liquid.ef1ea02f47a46d9e8f78.jpg",
+    "static/media/glasswaterpipe.jpg": "/smoke-vape-shop-webapp/static/media/glasswaterpipe.ca63282539a08309aff4.jpg",
+    "index.html": "/smoke-vape-shop-webapp/index.html",
+    "main.e6c13ad2.css.map": "/smoke-vape-shop-webapp/static/css/main.e6c13ad2.css.map",
+    "main.b1a093f5.js.map": "/smoke-vape-shop-webapp/static/js/main.b1a093f5.js.map",
+    "453.cf2d30b7.chunk.js.map": "/smoke-vape-shop-webapp/static/js/453.cf2d30b7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.b1a093f5.js"
+  ]
+}
