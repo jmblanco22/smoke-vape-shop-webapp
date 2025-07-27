@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { getProductById } from '../data/products';
+import { Link } from 'react-router-dom';
 
-// ... (Keep all styled components from the previous version)
 const PageContainer = styled.div`
   padding: 2rem;
   background-color: #0c0c0c;
@@ -83,10 +83,37 @@ const AddToCartButton = styled(motion.button)`
     text-shadow: 0 0 5px #0c0c0c;
   }
 `;
+const CloseButton = styled(Link)`
+  align-self: flex-end;
+  margin-bottom: 1rem;
+  margin-right: -1rem;
+  font-size: 2rem;
+  color: #ff00ff;
+  background: none;
+  border: none;
+  z-index: 10;
+  text-decoration: none;
+  &:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+`;
+
+const QuantityInput = styled.input`
+  width: 60px;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.3rem;
+  border: 1px solid #00ffff;
+  background: #222;
+  color: #fff;
+  text-align: center;
+`;
 
 const ProductDetail = ({ onAddToCart }) => {
   const { id } = useParams();
   const product = getProductById(id);
+  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return <div>Product not found</div>;
@@ -99,10 +126,19 @@ const ProductDetail = ({ onAddToCart }) => {
           <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </ImageContainer>
         <InfoContainer>
+          <CloseButton to="/products" aria-label="Back to products">&times;</CloseButton>
           <ProductName>{product.name}</ProductName>
           <ProductPrice>{product.price}</ProductPrice>
           <ProductDescription>{product.description}</ProductDescription>
-          <AddToCartButton onClick={() => onAddToCart(product)}>Add to Cart</AddToCartButton>
+          <QuantityInput
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={e => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+          />
+          <AddToCartButton onClick={() => onAddToCart({ ...product, quantity })}>
+            Add to Cart
+          </AddToCartButton>
         </InfoContainer>
       </DetailContainer>
     </PageContainer>

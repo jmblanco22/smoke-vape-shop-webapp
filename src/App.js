@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Global, css } from '@emotion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -30,21 +31,22 @@ const GlobalStyle = () => (
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
+  const [flyImage, setFlyImage] = useState(null);
 
   const handleAddToCart = (productToAdd) => {
+    setFlyImage(productToAdd.image); // Show animation
+    setTimeout(() => setFlyImage(null), 800); // Hide after animation
+
     setCartItems((prevItems) => {
       const isItemInCart = prevItems.find((item) => item.id === productToAdd.id);
-
       if (isItemInCart) {
-        // If item is already in cart, increase quantity
         return prevItems.map((item) =>
           item.id === productToAdd.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + (productToAdd.quantity || 1) }
             : item
         );
       }
-      // If item is not in cart, add it with quantity 1
-      return [...prevItems, { ...productToAdd, quantity: 1 }];
+      return [...prevItems, { ...productToAdd, quantity: productToAdd.quantity || 1 }];
     });
   };
 
@@ -67,10 +69,29 @@ function App() {
 
 
   return (
-    <Router>
+    <Router basename="/smoke-vape-shop-webapp">
       <GlobalStyle />
       <div className="App">
         <Header cartItemCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} />
+        <AnimatePresence>
+          {flyImage && (
+            <motion.img
+              key="fly"
+              src={flyImage}
+              initial={{ position: 'fixed', left: '50vw', top: '50vh', width: 120, opacity: 1, zIndex: 9999 }}
+              animate={{
+                left: ['50vw', '70vw', '90vw'],
+                top: ['50vh', '30vh', '30px'],
+                width: [120, 60, 40],
+                opacity: [1, 0.8, 0.5],
+                rotate: [0, 30, 0],
+              }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
+              style={{ pointerEvents: 'none', borderRadius: '50%' }}
+            />
+          )}
+        </AnimatePresence>
         <main style={{ flex: '1 0 auto' }}>
           <Routes>
             <Route path="/" element={<Home />} />
